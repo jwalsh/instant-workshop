@@ -1,13 +1,13 @@
 (ns demo.web
-  (:use ring.adapter.jetty))
+  (:use compojure.core, ring.adapter.jetty)
+  (:require [compojure.route :as route]))
 
-(defn app [req]
-  {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body "Hello, world"})
+(defroutes main-routes
+  (GET "/" [] "<h1>Hello World</h1>")
+  (route/not-found "<h1>Page not found</h1>"))
 
 (defn -main []
   (let [port (Integer/parseInt (System/getenv "PORT"))]
-    (run-jetty app {:port port})))
+    (run-jetty main-routes {:port port})))
 
 
